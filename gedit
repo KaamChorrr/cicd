@@ -1,9 +1,23 @@
-Flask==2.2.3
-MarkupSafe==2.1.2
-Werkzeug==2.2.3
-itsdangerous==2.1.2
-psutil==5.8.0
-plotly==5.5.0
-tenacity==8.0.1
-boto3==1.9.148
-kubernetes==10.0.1
+import psutil
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def index():
+    cpu_percent = psutil.cpu_percent()
+    mem_percent = psutil.virtual_memory().percent
+    Message = None
+    if cpu_percent > 80 or mem_percent > 80:
+        Message = "High CPU or Memory Utilization detecte. Please scale up!!"
+    return f"CPU Utilization:{cpu_percent} and Memory Utilization: {mem_percent}"
+
+
+@app.route("/say-hello")
+def say_hello_user():
+    return {"main":"user"}
+
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=5002)
+
