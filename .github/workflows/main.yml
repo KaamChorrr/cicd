@@ -1,5 +1,9 @@
 name: CI/CD Pipeline For Streamlit Application
 
+on:
+  push:
+    branches:
+    - '*'
 
 jobs:
   build:
